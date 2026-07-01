@@ -1,3 +1,8 @@
-# StayFlow v0.8 Functional Modules
+# StayFlow v0.9 Guest + Worker Deep Spec
 
-This package contains detailed module specifications for Property, Booking, Worker, Guest and Finance.
+Этот пакет детально описывает два приложения:
+
+- Guest App
+- Worker App
+
+Цель — подготовить точную спецификацию для UI/UX-дизайна и дальнейшей разработки.
