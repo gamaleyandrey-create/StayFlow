@@ -1,22 +1,31 @@
-# StayFlow v1.1 Implementation Starter
+# StayFlow
 
-This package starts the real implementation phase.
+StayFlow is a property operations platform for short-term rental managers.
 
-## Includes
+## Monorepo Structure
 
-- Backend NestJS starter
-- Prisma schema
-- Docker Compose for PostgreSQL
-- Owner App Flutter starter
-- Worker App Flutter starter
-- Guest App Flutter/Web starter
-- MVP scenario scripts
+```text
+apps/
+  owner-app/
+  worker-app/
+  guest-app/
+  admin-panel/
 
-## MVP scenario
+backend/
 
-1. Create property
-2. Create booking
-3. Auto-create cleaning task
-4. Assign worker
-5. Complete task
-6. Open guest link
+packages/
+  shared-models/
+  ui-components/
+  api-client/
+
+docs/
+scripts/
+```
+
+## Main MVP Flow
+
+1. Owner creates property.
+2. Owner creates booking.
+3. System creates cleaning task automatically.
+4. Worker completes task with photo report.
+5. Guest opens guest link.
