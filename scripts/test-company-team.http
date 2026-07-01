@@ -1,0 +1,52 @@
+### 1. Login owner
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "andrey@example.com",
+  "password": "123456"
+}
+
+### 2. Create company
+POST http://localhost:3000/api/companies
+Authorization: Bearer PASTE_OWNER_TOKEN
+Content-Type: application/json
+
+{
+  "name": "StayFlow Marbella",
+  "plan": "FREE"
+}
+
+### 3. Get my company
+GET http://localhost:3000/api/companies/me
+Authorization: Bearer PASTE_OWNER_TOKEN
+
+### 4. Invite manager
+POST http://localhost:3000/api/team/invite
+Authorization: Bearer PASTE_OWNER_TOKEN
+Content-Type: application/json
+
+{
+  "name": "Manager One",
+  "email": "manager@stayflow.app",
+  "phone": "+34000000001",
+  "role": "MANAGER",
+  "temporaryPassword": "123456"
+}
+
+### 5. Invite worker
+POST http://localhost:3000/api/team/invite
+Authorization: Bearer PASTE_OWNER_TOKEN
+Content-Type: application/json
+
+{
+  "name": "Worker One",
+  "email": "worker@stayflow.app",
+  "phone": "+34000000002",
+  "role": "WORKER",
+  "temporaryPassword": "123456"
+}
+
+### 6. List team
+GET http://localhost:3000/api/team
+Authorization: Bearer PASTE_OWNER_TOKEN

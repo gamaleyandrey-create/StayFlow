@@ -1,16 +1,11 @@
-# StayFlow v1.4 Auth + Roles Core
+# StayFlow v1.5 Company + Team Core
 
-Добавляет основу авторизации и ролей для StayFlow backend.
+Добавляет multi-tenant основу:
 
-## Входит
-
-- User model в Prisma
-- Auth register/login
-- JWT token
-- Current user decorator
-- Roles decorator
-- JWT guard draft
-- Roles guard draft
-- Users module
-- Protected `/auth/me`
-- Test requests
+- Company model
+- User.companyId
+- Company CRUD
+- Team management
+- Company-scoped properties
+- Owner/Manager/Worker/Admin роли
+- Подготовка к разделению данных между компаниями
