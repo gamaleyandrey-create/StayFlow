@@ -1,27 +1,18 @@
-# Contributing to StayFlow
+# Contributing
 
 ## Branches
 
-- `main` — stable version.
-- `dev` — active development.
-- `feature/*` — new features.
-- `fix/*` — bug fixes.
+- `main` — stable
+- `dev` — development
+- `feature/*` — features
+- `fix/*` — fixes
 
-## Commit Style
+## Commits
 
-Examples:
+Use simple conventional style:
 
 ```text
-feat: add booking model
-fix: correct task status flow
-docs: update API documentation
+feat: add property model
+fix: update task status
+docs: update roadmap
 ```
-
-## Pull Requests
-
-Every PR should include:
-
-- What changed
-- Why it changed
-- Screenshots if UI changed
-- Test notes

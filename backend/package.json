@@ -1,0 +1,22 @@
+{
+  "name": "stayflow-backend",
+  "version": "0.2.0",
+  "private": true,
+  "scripts": {
+    "start": "nest start",
+    "start:dev": "nest start --watch",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev"
+  },
+  "dependencies": {
+    "@nestjs/common": "latest",
+    "@nestjs/core": "latest",
+    "@nestjs/platform-express": "latest",
+    "@prisma/client": "latest",
+    "prisma": "latest"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "latest",
+    "typescript": "latest"
+  }
+}

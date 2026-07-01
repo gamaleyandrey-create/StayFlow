@@ -1,14 +1,20 @@
 # TODO
 
-## Now
+## Immediate
+- [ ] Upload v0.2 starter files
 - [ ] Enable GitHub Pages from `/docs`
-- [ ] Upload starter files
-- [ ] Add API documentation
-- [ ] Add database schema
-- [ ] Prepare first backend skeleton
+- [ ] Rename Russian folders to English folders if needed
+- [ ] Create first GitHub issues from MVP list
 
-## Next
-- [ ] Create Owner App wireframes
-- [ ] Create Worker App wireframes
-- [ ] Create Guest App wireframes
-- [ ] Create MVP issues
+## Backend
+- [ ] Install NestJS
+- [ ] Configure Prisma
+- [ ] Add PostgreSQL connection
+- [ ] Build Auth module
+- [ ] Build Properties module
+
+## Apps
+- [ ] Create Flutter projects
+- [ ] Add navigation
+- [ ] Add login screens
+- [ ] Add dashboard screens

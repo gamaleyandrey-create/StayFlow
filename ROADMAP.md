@@ -1,43 +1,28 @@
 # StayFlow Roadmap
 
-## Phase 0 — Foundation
+## v0.1
 - Repository structure
-- GitHub Pages docs
-- Product documentation
-- Database schema draft
-- API specification draft
+- Docs
+- GitHub Pages
 
-## Phase 1 — MVP
-- Auth
-- Owner App basics
-- Properties
-- Bookings
-- Automatic cleaning tasks
-- Worker App task flow
-- Guest Link
+## v0.2
+- Flutter starter skeletons
+- NestJS backend starter skeleton
+- Prisma schema draft
+- GitHub issue templates
+- GitHub Actions drafts
+
+## v0.3
+- Auth API
+- Properties API
+- Owner dashboard UI
+
+## v0.4
+- Bookings API
+- Automatic cleaning task logic
+- Worker task flow
+
+## v0.5
+- Guest link
+- Chat MVP
 - Photo reports
-- Basic chat
-- Notifications
-
-## Phase 2 — Business Features
-- Finance dashboard
-- Team roles
-- Advanced filters
-- Service requests
-- Admin panel
-- Releases page
-
-## Phase 3 — Marketplace
-- Worker marketplace
-- Cleaning offers
-- Repair offers
-- Service commission
-- Ratings
-- Payouts
-
-## Phase 4 — AI
-- AI Guest Concierge
-- AI Manager
-- Auto-translation
-- Review analysis
-- Dynamic pricing suggestions

@@ -1,0 +1,95 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  OWNER
+  MANAGER
+  WORKER
+  GUEST
+  ADMIN
+}
+
+enum PropertyStatus {
+  FREE
+  OCCUPIED
+  CLEANING_NEEDED
+  CLEANING_IN_PROGRESS
+  READY
+  REPAIR
+  PROBLEM
+}
+
+enum TaskStatus {
+  NEW
+  ASSIGNED
+  ACCEPTED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  PROBLEM
+}
+
+model User {
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  phone        String?
+  role         UserRole
+  passwordHash String?
+  createdAt    DateTime @default(now())
+}
+
+model Property {
+  id          String         @id @default(uuid())
+  title       String
+  address     String
+  city        String?
+  bedrooms    Int?
+  bathrooms   Int?
+  maxGuests   Int?
+  wifiName    String?
+  wifiPassword String?
+  doorCode    String?
+  instructions String?
+  status      PropertyStatus @default(FREE)
+  bookings    Booking[]
+  tasks       Task[]
+  createdAt   DateTime @default(now())
+}
+
+model Booking {
+  id           String   @id @default(uuid())
+  propertyId   String
+  property     Property @relation(fields: [propertyId], references: [id])
+  guestName    String
+  guestEmail   String?
+  guestPhone   String?
+  checkInDate  DateTime
+  checkOutDate DateTime
+  amount       Float?
+  source       String?
+  guestLink    String?
+  tasks        Task[]
+  createdAt    DateTime @default(now())
+}
+
+model Task {
+  id          String     @id @default(uuid())
+  propertyId  String
+  property    Property   @relation(fields: [propertyId], references: [id])
+  bookingId   String?
+  booking     Booking?   @relation(fields: [bookingId], references: [id])
+  type        String
+  title       String
+  description String?
+  status      TaskStatus @default(NEW)
+  date        DateTime?
+  price       Float?
+  createdAt   DateTime @default(now())
+}
