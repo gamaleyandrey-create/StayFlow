@@ -1,0 +1,67 @@
+### 1. Create property
+POST http://localhost:3000/api/properties
+Content-Type: application/json
+
+{
+  "title": "Apartment Marbella 01",
+  "address": "Marbella Center",
+  "city": "Marbella",
+  "bedrooms": 2,
+  "bathrooms": 1,
+  "maxGuests": 4,
+  "wifiName": "StayFlow WiFi",
+  "wifiPassword": "12345678",
+  "doorCode": "2026",
+  "instructions": "Welcome. Use the door code to enter."
+}
+
+### 2. List properties
+GET http://localhost:3000/api/properties
+
+### 3. Create booking
+POST http://localhost:3000/api/bookings
+Content-Type: application/json
+
+{
+  "propertyId": "PASTE_PROPERTY_ID",
+  "guestName": "John Smith",
+  "guestEmail": "john@example.com",
+  "guestPhone": "+34123456789",
+  "checkInDate": "2026-08-01",
+  "checkOutDate": "2026-08-05",
+  "guestsCount": 2,
+  "amount": 850,
+  "source": "DIRECT"
+}
+
+### 4. List tasks
+GET http://localhost:3000/api/tasks
+
+### 5. Assign task
+PATCH http://localhost:3000/api/tasks/PASTE_TASK_ID/assign
+Content-Type: application/json
+
+{
+  "workerId": "worker-demo-1"
+}
+
+### 6. Complete task
+POST http://localhost:3000/api/tasks/PASTE_TASK_ID/complete
+Content-Type: application/json
+
+{
+  "photos": ["kitchen.jpg", "bathroom.jpg", "bedroom.jpg", "living-room.jpg"]
+}
+
+### 7. Open guest link
+GET http://localhost:3000/api/guest/PASTE_GUEST_LINK
+
+### 8. Guest reports problem
+POST http://localhost:3000/api/guest/PASTE_GUEST_LINK/problem
+Content-Type: application/json
+
+{
+  "title": "Air conditioner not working",
+  "description": "The AC does not turn on.",
+  "urgent": true
+}

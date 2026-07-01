@@ -1,6 +1,6 @@
 {
   "name": "stayflow-backend",
-  "version": "1.1.0",
+  "version": "1.3.0",
   "private": true,
   "scripts": {
     "start": "nest start",
@@ -15,16 +15,15 @@
     "@nestjs/core": "latest",
     "@nestjs/platform-express": "latest",
     "@nestjs/config": "latest",
-    "@nestjs/jwt": "latest",
     "@prisma/client": "latest",
-    "bcrypt": "latest",
+    "class-transformer": "latest",
+    "class-validator": "latest",
     "prisma": "latest",
     "reflect-metadata": "latest",
     "rxjs": "latest"
   },
   "devDependencies": {
     "@nestjs/cli": "latest",
-    "@types/bcrypt": "latest",
     "@types/node": "latest",
     "typescript": "latest"
   }

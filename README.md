@@ -1,31 +1,25 @@
-# StayFlow
+# StayFlow v1.3 Backend Core
 
-StayFlow is a property operations platform for short-term rental managers.
+Первый backend-core пакет для MVP.
 
-## Monorepo Structure
+## Что входит
 
-```text
-apps/
-  owner-app/
-  worker-app/
-  guest-app/
-  admin-panel/
+- NestJS backend structure
+- Prisma schema
+- PostgreSQL Docker Compose
+- Properties API
+- Bookings API
+- Automatic cleaning task
+- Tasks API
+- Guest Link API
+- MVP test requests
 
-backend/
+## Главный сценарий
 
-packages/
-  shared-models/
-  ui-components/
-  api-client/
-
-docs/
-scripts/
-```
-
-## Main MVP Flow
-
-1. Owner creates property.
-2. Owner creates booking.
-3. System creates cleaning task automatically.
-4. Worker completes task with photo report.
-5. Guest opens guest link.
+1. Create property
+2. Create booking
+3. System creates cleaning task
+4. Get tasks
+5. Complete cleaning task
+6. Property becomes READY
+7. Guest opens guest link
