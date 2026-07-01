@@ -41,26 +41,26 @@ model User {
   email        String   @unique
   phone        String?
   role         UserRole
-  passwordHash String?
+  passwordHash String
   createdAt    DateTime @default(now())
 }
 
 model Property {
-  id          String         @id @default(uuid())
-  title       String
-  address     String
-  city        String?
-  bedrooms    Int?
-  bathrooms   Int?
-  maxGuests   Int?
-  wifiName    String?
-  wifiPassword String?
-  doorCode    String?
-  instructions String?
-  status      PropertyStatus @default(FREE)
-  bookings    Booking[]
-  tasks       Task[]
-  createdAt   DateTime @default(now())
+  id            String         @id @default(uuid())
+  title         String
+  address       String
+  city          String?
+  bedrooms      Int?
+  bathrooms     Int?
+  maxGuests     Int?
+  wifiName      String?
+  wifiPassword  String?
+  doorCode      String?
+  instructions  String?
+  status        PropertyStatus @default(FREE)
+  bookings      Booking[]
+  tasks         Task[]
+  createdAt     DateTime @default(now())
 }
 
 model Booking {
@@ -72,6 +72,7 @@ model Booking {
   guestPhone   String?
   checkInDate  DateTime
   checkOutDate DateTime
+  guestsCount  Int?
   amount       Float?
   source       String?
   guestLink    String?
@@ -80,16 +81,18 @@ model Booking {
 }
 
 model Task {
-  id          String     @id @default(uuid())
-  propertyId  String
-  property    Property   @relation(fields: [propertyId], references: [id])
-  bookingId   String?
-  booking     Booking?   @relation(fields: [bookingId], references: [id])
-  type        String
-  title       String
-  description String?
-  status      TaskStatus @default(NEW)
-  date        DateTime?
-  price       Float?
-  createdAt   DateTime @default(now())
+  id               String     @id @default(uuid())
+  propertyId       String
+  property         Property   @relation(fields: [propertyId], references: [id])
+  bookingId        String?
+  booking          Booking?   @relation(fields: [bookingId], references: [id])
+  assignedWorkerId String?
+  type             String
+  title            String
+  description      String?
+  status           TaskStatus @default(NEW)
+  date             DateTime?
+  price            Float?
+  priority         String?
+  createdAt        DateTime @default(now())
 }

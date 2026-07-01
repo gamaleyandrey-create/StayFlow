@@ -1,22 +1,33 @@
 {
   "name": "stayflow-backend",
-  "version": "0.2.0",
+  "version": "0.4.0",
   "private": true,
   "scripts": {
     "start": "nest start",
     "start:dev": "nest start --watch",
+    "build": "nest build",
     "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev"
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:studio": "prisma studio"
   },
   "dependencies": {
     "@nestjs/common": "latest",
     "@nestjs/core": "latest",
     "@nestjs/platform-express": "latest",
+    "@nestjs/config": "latest",
+    "@nestjs/jwt": "latest",
     "@prisma/client": "latest",
-    "prisma": "latest"
+    "bcrypt": "latest",
+    "class-transformer": "latest",
+    "class-validator": "latest",
+    "prisma": "latest",
+    "reflect-metadata": "latest",
+    "rxjs": "latest"
   },
   "devDependencies": {
     "@nestjs/cli": "latest",
+    "@types/bcrypt": "latest",
+    "@types/node": "latest",
     "typescript": "latest"
   }
 }
