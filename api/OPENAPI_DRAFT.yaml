@@ -1,0 +1,270 @@
+openapi: 3.0.0
+info:
+  title: StayFlow API
+  version: 0.6.0
+  description: API draft for StayFlow MVP
+servers:
+  - url: http://localhost:3000/api
+
+paths:
+  /auth/register:
+    post:
+      summary: Register user
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, email, password, role]
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                phone:
+                  type: string
+                password:
+                  type: string
+                role:
+                  type: string
+                  enum: [OWNER, MANAGER, WORKER, GUEST, ADMIN]
+      responses:
+        "201":
+          description: Registered
+
+  /auth/login:
+    post:
+      summary: Login
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: Logged in
+
+  /properties:
+    get:
+      summary: List properties
+      tags: [Properties]
+      responses:
+        "200":
+          description: List of properties
+    post:
+      summary: Create property
+      tags: [Properties]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateProperty"
+      responses:
+        "201":
+          description: Property created
+
+  /properties/{id}:
+    get:
+      summary: Get property
+      tags: [Properties]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Property details
+    patch:
+      summary: Update property
+      tags: [Properties]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Updated
+    delete:
+      summary: Delete property
+      tags: [Properties]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Deleted
+
+  /bookings:
+    get:
+      summary: List bookings
+      tags: [Bookings]
+      responses:
+        "200":
+          description: List bookings
+    post:
+      summary: Create booking and automatic cleaning task
+      tags: [Bookings]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateBooking"
+      responses:
+        "201":
+          description: Booking created
+
+  /tasks:
+    get:
+      summary: List tasks
+      tags: [Tasks]
+      responses:
+        "200":
+          description: List tasks
+    post:
+      summary: Create task
+      tags: [Tasks]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateTask"
+      responses:
+        "201":
+          description: Task created
+
+  /tasks/{id}/status:
+    patch:
+      summary: Update task status
+      tags: [Tasks]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [status]
+              properties:
+                status:
+                  type: string
+                  enum: [NEW, ASSIGNED, ACCEPTED, IN_PROGRESS, COMPLETED, CANCELLED, PROBLEM]
+      responses:
+        "200":
+          description: Status updated
+
+  /guest/{guestLink}:
+    get:
+      summary: Open guest page
+      tags: [Guest]
+      parameters:
+        - in: path
+          name: guestLink
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Guest booking info
+
+components:
+  schemas:
+    CreateProperty:
+      type: object
+      required: [title, address]
+      properties:
+        title:
+          type: string
+        type:
+          type: string
+        address:
+          type: string
+        city:
+          type: string
+        bedrooms:
+          type: integer
+        bathrooms:
+          type: integer
+        maxGuests:
+          type: integer
+        wifiName:
+          type: string
+        wifiPassword:
+          type: string
+        doorCode:
+          type: string
+        instructions:
+          type: string
+
+    CreateBooking:
+      type: object
+      required: [propertyId, guestName, checkInDate, checkOutDate]
+      properties:
+        propertyId:
+          type: string
+        guestName:
+          type: string
+        guestEmail:
+          type: string
+        guestPhone:
+          type: string
+        checkInDate:
+          type: string
+          format: date
+        checkOutDate:
+          type: string
+          format: date
+        guestsCount:
+          type: integer
+        amount:
+          type: number
+        source:
+          type: string
+
+    CreateTask:
+      type: object
+      required: [propertyId, type, title]
+      properties:
+        propertyId:
+          type: string
+        bookingId:
+          type: string
+        assignedWorkerId:
+          type: string
+        type:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        date:
+          type: string
+          format: date
+        price:
+          type: number
+        priority:
+          type: string

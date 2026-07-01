@@ -1,41 +1,11 @@
-# StayFlow
+# StayFlow v0.6 Full Product Specification
 
-**Property Operations Platform for Owners, Workers and Guests**
+StayFlow — платформа из трех связанных приложений для рынка краткосрочной аренды:
 
-StayFlow — экосистема для управления туристической недвижимостью: владельцы и управляющие компании контролируют объекты, работники получают задачи, гости получают инструкции и сервис.
+- **Owner App** — владельцы и управляющие компании.
+- **Worker App** — уборщики, мастера, подрядчики.
+- **Guest App** — гости, заселение, инструкции, услуги.
+- **Backend** — единая база, API, роли, чат, уведомления, автоматизация.
+- **Admin Panel** — контроль платформы.
 
-## Apps
-
-- Owner App — управление объектами, бронированиями, задачами и финансами.
-- Worker App — задачи, маршруты, фотоотчеты и доход.
-- Guest App — заселение, инструкции, чат и услуги.
-- Admin Panel — управление платформой.
-
-## Structure
-
-```text
-docs/
-owner/
-worker/
-guest/
-backend/
-admin/
-database/
-design/
-scripts/
-releases/
-assets/
-.github/
-```
-
-## MVP
-
-1. Auth
-2. Properties
-3. Bookings
-4. Automatic cleaning tasks
-5. Worker task flow
-6. Guest link
-7. Photo reports
-8. Chat
-9. Notifications
+Этот пакет содержит полное проектирование продукта перед переходом к активной разработке.
