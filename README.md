@@ -1,10 +1,13 @@
-# StayFlow v1.6 Company-Scoped Security
+# StayFlow v2.3 Complete MVP Roadmap Pack
 
-Добавляет принцип multi-tenant security:
+Один пакет для следующих этапов разработки:
 
-- пользователь видит только данные своей компании;
-- свойства привязаны к companyId;
-- бронирования доступны через property.companyId;
-- задачи доступны через property.companyId;
-- ADMIN может видеть всё;
-- OWNER/MANAGER видят только свою компанию.
+- v1.7 Storage + Media Core
+- v1.8 Notifications Core
+- v1.9 Owner App MVP
+- v2.0 Worker App MVP
+- v2.1 Guest Web App MVP
+- v2.2 Admin Panel MVP
+- v2.3 Docker + CI/CD + Production Deployment
+
+Загрузи содержимое в корень репозитория.
