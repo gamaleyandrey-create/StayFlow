@@ -1,11 +1,10 @@
-# StayFlow v1.5 Company + Team Core
+# StayFlow v1.6 Company-Scoped Security
 
-Добавляет multi-tenant основу:
+Добавляет принцип multi-tenant security:
 
-- Company model
-- User.companyId
-- Company CRUD
-- Team management
-- Company-scoped properties
-- Owner/Manager/Worker/Admin роли
-- Подготовка к разделению данных между компаниями
+- пользователь видит только данные своей компании;
+- свойства привязаны к companyId;
+- бронирования доступны через property.companyId;
+- задачи доступны через property.companyId;
+- ADMIN может видеть всё;
+- OWNER/MANAGER видят только свою компанию.

@@ -1,19 +1,26 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateTaskDto } from './dto/create-task.dto';
 
 @Injectable()
 export class TasksService {
   constructor(private readonly prisma: PrismaService) {}
 
-  findAll() {
+  async findAll(user: any) {
+    if (user.role === 'ADMIN') {
+      return this.prisma.task.findMany({
+        include: { property: true, booking: true },
+        orderBy: { createdAt: 'desc' },
+      });
+    }
+
     return this.prisma.task.findMany({
+      where: { property: { companyId: user.companyId } },
       include: { property: true, booking: true },
       orderBy: { createdAt: 'desc' },
     });
   }
 
-  async findOne(id: string) {
+  async findOne(user: any, id: string) {
     const task = await this.prisma.task.findUnique({
       where: { id },
       include: { property: true, booking: true },
@@ -21,49 +28,24 @@ export class TasksService {
 
     if (!task) throw new NotFoundException('Task not found');
 
+    if (user.role !== 'ADMIN' && task.property.companyId !== user.companyId) {
+      throw new ForbiddenException('No access to this task');
+    }
+
     return task;
   }
 
-  create(dto: CreateTaskDto) {
-    return this.prisma.task.create({
-      data: {
-        propertyId: dto.propertyId,
-        bookingId: dto.bookingId,
-        assignedWorkerId: dto.assignedWorkerId,
-        type: dto.type,
-        title: dto.title,
-        description: dto.description,
-        date: dto.date ? new Date(dto.date) : undefined,
-        price: dto.price,
-        priority: dto.priority || 'normal',
-      },
-    });
+  async updateStatus(user: any, id: string, status: any) {
+    await this.findOne(user, id);
+    return this.prisma.task.update({ where: { id }, data: { status } });
   }
 
-  updateStatus(id: string, status: any) {
-    return this.prisma.task.update({
-      where: { id },
-      data: { status },
-    });
-  }
+  async complete(user: any, id: string, photos: string[]) {
+    const task = await this.findOne(user, id);
 
-  assign(id: string, workerId: string) {
-    return this.prisma.task.update({
+    const updated = await this.prisma.task.update({
       where: { id },
-      data: {
-        assignedWorkerId: workerId,
-        status: 'ASSIGNED',
-      },
-    });
-  }
-
-  async complete(id: string, photos: string[]) {
-    const task = await this.prisma.task.update({
-      where: { id },
-      data: {
-        status: 'COMPLETED',
-        photos,
-      },
+      data: { status: 'COMPLETED', photos },
     });
 
     if (task.type === 'CLEANING') {
@@ -73,6 +55,6 @@ export class TasksService {
       });
     }
 
-    return task;
+    return updated;
   }
 }

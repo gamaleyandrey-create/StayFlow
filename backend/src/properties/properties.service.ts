@@ -1,18 +1,22 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreatePropertyDto } from './dto/create-property.dto';
 
 @Injectable()
 export class PropertiesService {
   constructor(private readonly prisma: PrismaService) {}
 
-  findAll() {
+  async findAll(user: any) {
+    if (user.role === 'ADMIN') {
+      return this.prisma.property.findMany({ orderBy: { createdAt: 'desc' } });
+    }
+
     return this.prisma.property.findMany({
+      where: { companyId: user.companyId },
       orderBy: { createdAt: 'desc' },
     });
   }
 
-  async findOne(id: string) {
+  async findOne(user: any, id: string) {
     const property = await this.prisma.property.findUnique({
       where: { id },
       include: { bookings: true, tasks: true },
@@ -20,37 +24,38 @@ export class PropertiesService {
 
     if (!property) throw new NotFoundException('Property not found');
 
+    if (user.role !== 'ADMIN' && property.companyId !== user.companyId) {
+      throw new ForbiddenException('No access to this property');
+    }
+
     return property;
   }
 
-  create(dto: CreatePropertyDto) {
+  async create(user: any, dto: any) {
+    if (!user.companyId && user.role !== 'ADMIN') {
+      throw new ForbiddenException('User has no company');
+    }
+
     return this.prisma.property.create({
       data: {
-        title: dto.title,
-        address: dto.address,
-        city: dto.city,
-        country: dto.country || 'Spain',
-        bedrooms: dto.bedrooms,
-        bathrooms: dto.bathrooms,
-        maxGuests: dto.maxGuests,
-        wifiName: dto.wifiName,
-        wifiPassword: dto.wifiPassword,
-        doorCode: dto.doorCode,
-        instructions: dto.instructions,
+        ...dto,
+        companyId: user.companyId,
       },
     });
   }
 
-  update(id: string, dto: Partial<CreatePropertyDto>) {
+  async update(user: any, id: string, dto: any) {
+    await this.findOne(user, id);
+
     return this.prisma.property.update({
       where: { id },
       data: dto,
     });
   }
 
-  remove(id: string) {
-    return this.prisma.property.delete({
-      where: { id },
-    });
+  async remove(user: any, id: string) {
+    await this.findOne(user, id);
+
+    return this.prisma.property.delete({ where: { id } });
   }
 }

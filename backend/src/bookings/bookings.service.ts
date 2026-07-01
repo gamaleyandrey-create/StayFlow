@@ -1,19 +1,26 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateBookingDto } from './dto/create-booking.dto';
 
 @Injectable()
 export class BookingsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  findAll() {
+  async findAll(user: any) {
+    if (user.role === 'ADMIN') {
+      return this.prisma.booking.findMany({
+        include: { property: true, tasks: true },
+        orderBy: { createdAt: 'desc' },
+      });
+    }
+
     return this.prisma.booking.findMany({
+      where: { property: { companyId: user.companyId } },
       include: { property: true, tasks: true },
       orderBy: { createdAt: 'desc' },
     });
   }
 
-  async findOne(id: string) {
+  async findOne(user: any, id: string) {
     const booking = await this.prisma.booking.findUnique({
       where: { id },
       include: { property: true, tasks: true },
@@ -21,10 +28,24 @@ export class BookingsService {
 
     if (!booking) throw new NotFoundException('Booking not found');
 
+    if (user.role !== 'ADMIN' && booking.property.companyId !== user.companyId) {
+      throw new ForbiddenException('No access to this booking');
+    }
+
     return booking;
   }
 
-  async create(dto: CreateBookingDto) {
+  async create(user: any, dto: any) {
+    const property = await this.prisma.property.findUnique({
+      where: { id: dto.propertyId },
+    });
+
+    if (!property) throw new NotFoundException('Property not found');
+
+    if (user.role !== 'ADMIN' && property.companyId !== user.companyId) {
+      throw new ForbiddenException('No access to this property');
+    }
+
     const guestLink = `gst_${Math.random().toString(36).slice(2)}_${Date.now()}`;
 
     const booking = await this.prisma.booking.create({
@@ -42,11 +63,6 @@ export class BookingsService {
       },
     });
 
-    await this.prisma.property.update({
-      where: { id: booking.propertyId },
-      data: { status: 'OCCUPIED' },
-    });
-
     const cleaningTask = await this.prisma.task.create({
       data: {
         propertyId: booking.propertyId,
@@ -55,26 +71,9 @@ export class BookingsService {
         title: `Cleaning after ${booking.guestName}`,
         description: 'Automatically created after checkout',
         date: booking.checkOutDate,
-        priority: 'normal',
       },
     });
 
-    return {
-      booking,
-      cleaningTask,
-    };
-  }
-
-  cancel(id: string) {
-    return this.prisma.booking.update({
-      where: { id },
-      data: { status: 'CANCELLED' },
-    });
-  }
-
-  remove(id: string) {
-    return this.prisma.booking.delete({
-      where: { id },
-    });
+    return { booking, cleaningTask };
   }
 }
