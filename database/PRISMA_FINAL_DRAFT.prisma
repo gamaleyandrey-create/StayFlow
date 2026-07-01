@@ -1,0 +1,182 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  OWNER
+  MANAGER
+  WORKER
+  GUEST
+  ADMIN
+}
+
+enum PropertyStatus {
+  FREE
+  OCCUPIED
+  CLEANING_NEEDED
+  CLEANING_IN_PROGRESS
+  READY
+  REPAIR
+  PROBLEM
+}
+
+enum TaskStatus {
+  NEW
+  ASSIGNED
+  ACCEPTED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  PROBLEM
+}
+
+enum TaskType {
+  CLEANING
+  REPAIR
+  LAUNDRY
+  INSPECTION
+  PHOTO_REPORT
+  TRANSFER
+  OTHER
+}
+
+model User {
+  id             String   @id @default(uuid())
+  name           String
+  email          String   @unique
+  phone          String?
+  role           UserRole
+  passwordHash   String?
+  companyId      String?
+  company        Company? @relation(fields: [companyId], references: [id])
+  workerProfile  WorkerProfile?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Company {
+  id        String   @id @default(uuid())
+  name      String
+  ownerId   String
+  plan      String   @default("FREE")
+  users     User[]
+  properties Property[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Property {
+  id            String @id @default(uuid())
+  companyId     String
+  company       Company @relation(fields: [companyId], references: [id])
+  title         String
+  type          String?
+  address       String
+  city          String?
+  country       String @default("Spain")
+  bedrooms      Int?
+  bathrooms     Int?
+  maxGuests     Int?
+  wifiName      String?
+  wifiPassword  String?
+  doorCode      String?
+  instructions  String?
+  status        PropertyStatus @default(FREE)
+  bookings      Booking[]
+  tasks         Task[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Guest {
+  id        String @id @default(uuid())
+  name      String
+  email     String?
+  phone     String?
+  country   String?
+  bookings  Booking[]
+  createdAt DateTime @default(now())
+}
+
+model Booking {
+  id           String @id @default(uuid())
+  propertyId   String
+  property     Property @relation(fields: [propertyId], references: [id])
+  guestId      String
+  guest        Guest @relation(fields: [guestId], references: [id])
+  checkInDate  DateTime
+  checkOutDate DateTime
+  guestsCount  Int?
+  amount       Float?
+  source       String?
+  status       String @default("CONFIRMED")
+  guestLink    String @unique
+  tasks        Task[]
+  chat         Chat?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model WorkerProfile {
+  id          String @id @default(uuid())
+  userId      String @unique
+  user        User @relation(fields: [userId], references: [id])
+  city        String?
+  serviceType String?
+  rating      Float @default(0)
+  isVerified  Boolean @default(false)
+  createdAt   DateTime @default(now())
+}
+
+model Task {
+  id               String @id @default(uuid())
+  propertyId       String
+  property         Property @relation(fields: [propertyId], references: [id])
+  bookingId        String?
+  booking          Booking? @relation(fields: [bookingId], references: [id])
+  assignedWorkerId String?
+  type             TaskType
+  title            String
+  description      String?
+  status           TaskStatus @default(NEW)
+  date             DateTime?
+  price            Float?
+  priority         String @default("normal")
+  photos           TaskPhoto[]
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model TaskPhoto {
+  id        String @id @default(uuid())
+  taskId    String
+  task      Task @relation(fields: [taskId], references: [id])
+  photoUrl  String
+  type      String?
+  createdAt DateTime @default(now())
+}
+
+model Chat {
+  id        String @id @default(uuid())
+  bookingId String? @unique
+  booking   Booking? @relation(fields: [bookingId], references: [id])
+  type      String
+  messages  Message[]
+  createdAt DateTime @default(now())
+}
+
+model Message {
+  id        String @id @default(uuid())
+  chatId    String
+  chat      Chat @relation(fields: [chatId], references: [id])
+  senderId  String
+  text      String?
+  imageUrl  String?
+  type      String @default("TEXT")
+  createdAt DateTime @default(now())
+}
