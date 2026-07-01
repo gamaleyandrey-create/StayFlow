@@ -1,0 +1,39 @@
+### Register owner
+POST http://localhost:3000/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "Andrey",
+  "email": "andrey@example.com",
+  "phone": "+34000000000",
+  "password": "123456",
+  "role": "OWNER"
+}
+
+### Login
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "andrey@example.com",
+  "password": "123456"
+}
+
+### Me
+GET http://localhost:3000/api/auth/me
+Authorization: Bearer PASTE_TOKEN
+
+### Register admin
+POST http://localhost:3000/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "Admin",
+  "email": "admin@stayflow.app",
+  "password": "123456",
+  "role": "ADMIN"
+}
+
+### List users as admin
+GET http://localhost:3000/api/users
+Authorization: Bearer PASTE_ADMIN_TOKEN

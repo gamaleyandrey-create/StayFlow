@@ -1,25 +1,16 @@
-# StayFlow v1.3 Backend Core
+# StayFlow v1.4 Auth + Roles Core
 
-Первый backend-core пакет для MVP.
+Добавляет основу авторизации и ролей для StayFlow backend.
 
-## Что входит
+## Входит
 
-- NestJS backend structure
-- Prisma schema
-- PostgreSQL Docker Compose
-- Properties API
-- Bookings API
-- Automatic cleaning task
-- Tasks API
-- Guest Link API
-- MVP test requests
-
-## Главный сценарий
-
-1. Create property
-2. Create booking
-3. System creates cleaning task
-4. Get tasks
-5. Complete cleaning task
-6. Property becomes READY
-7. Guest opens guest link
+- User model в Prisma
+- Auth register/login
+- JWT token
+- Current user decorator
+- Roles decorator
+- JWT guard draft
+- Roles guard draft
+- Users module
+- Protected `/auth/me`
+- Test requests

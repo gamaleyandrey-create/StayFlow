@@ -3,5 +3,5 @@ export class RegisterDto {
   email: string;
   phone?: string;
   password: string;
-  role: 'OWNER' | 'MANAGER' | 'WORKER' | 'GUEST' | 'ADMIN';
+  role?: 'OWNER' | 'MANAGER' | 'WORKER' | 'GUEST' | 'ADMIN';
 }

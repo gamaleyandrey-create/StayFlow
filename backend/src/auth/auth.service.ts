@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException, BadRequestException } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UsersService } from '../users/users.service';
@@ -19,46 +19,48 @@ export class AuthService {
     }
 
     const passwordHash = await bcrypt.hash(dto.password, 10);
+
     const user = await this.users.create({
       name: dto.name,
       email: dto.email,
       phone: dto.phone,
-      role: dto.role,
+      role: dto.role || 'OWNER',
       passwordHash,
     });
 
-    const token = this.jwt.sign({ sub: user.id, email: user.email, role: user.role });
-
-    return {
-      accessToken: token,
-      user: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-      },
-    };
+    return this.createAuthResponse(user);
   }
 
   async login(dto: LoginDto) {
     const user = await this.users.findByEmail(dto.email);
+
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const valid = await bcrypt.compare(dto.password, user.passwordHash);
-    if (!valid) {
+    const validPassword = await bcrypt.compare(dto.password, user.passwordHash);
+
+    if (!validPassword) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const token = this.jwt.sign({ sub: user.id, email: user.email, role: user.role });
+    return this.createAuthResponse(user);
+  }
+
+  private createAuthResponse(user: any) {
+    const payload = {
+      sub: user.id,
+      email: user.email,
+      role: user.role,
+    };
 
     return {
-      accessToken: token,
+      accessToken: this.jwt.sign(payload),
       user: {
         id: user.id,
         name: user.name,
         email: user.email,
+        phone: user.phone,
         role: user.role,
       },
     };
