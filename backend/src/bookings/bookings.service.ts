@@ -3,7 +3,7 @@ import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class BookingsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) {}
 
   findAll() {
     return this.prisma.booking.findMany({
@@ -12,26 +12,18 @@ export class BookingsService {
     });
   }
 
-  findOne(id: string) {
-    return this.prisma.booking.findUnique({
-      where: { id },
-      include: { property: true, tasks: true },
-    });
-  }
-
-  async create(dto: any) {
+  async create(data: any) {
     const booking = await this.prisma.booking.create({
       data: {
-        propertyId: dto.propertyId,
-        guestName: dto.guestName,
-        guestEmail: dto.guestEmail,
-        guestPhone: dto.guestPhone,
-        checkInDate: new Date(dto.checkInDate),
-        checkOutDate: new Date(dto.checkOutDate),
-        guestsCount: dto.guestsCount,
-        amount: dto.amount,
-        source: dto.source,
-        guestLink: `guest-${Date.now()}`,
+        propertyId: data.propertyId,
+        guestName: data.guestName,
+        guestEmail: data.guestEmail,
+        guestPhone: data.guestPhone,
+        checkInDate: new Date(data.checkInDate),
+        checkOutDate: new Date(data.checkOutDate),
+        amount: data.amount,
+        source: data.source,
+        guestLink: `gst_${Date.now()}`,
       },
     });
 
@@ -39,11 +31,10 @@ export class BookingsService {
       data: {
         propertyId: booking.propertyId,
         bookingId: booking.id,
-        type: 'cleaning',
+        type: 'CLEANING',
         title: `Cleaning after ${booking.guestName}`,
-        description: 'Automatically created after booking checkout',
+        description: 'Automatically created after checkout',
         date: booking.checkOutDate,
-        priority: 'normal',
       },
     });
 

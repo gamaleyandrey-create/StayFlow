@@ -1,15 +1,22 @@
-# StayFlow v1.0 MVP Definition
+# StayFlow v1.1 Implementation Starter
 
-Этот пакет фиксирует первую коммерческую версию MVP.
+This package starts the real implementation phase.
 
-Цель v1.0: создать рабочую платформу, где управляющая компания может:
+## Includes
 
-1. Добавить объект.
-2. Добавить бронирование.
-3. Автоматически получить задачу уборки.
-4. Назначить исполнителя.
-5. Получить фотоотчет.
-6. Дать гостю ссылку с инструкциями.
-7. Получить сообщение или проблему от гостя.
+- Backend NestJS starter
+- Prisma schema
+- Docker Compose for PostgreSQL
+- Owner App Flutter starter
+- Worker App Flutter starter
+- Guest App Flutter/Web starter
+- MVP scenario scripts
 
-Это минимальная версия, которую можно тестировать с первыми управляющими компаниями в Испании.
+## MVP scenario
+
+1. Create property
+2. Create booking
+3. Auto-create cleaning task
+4. Assign worker
+5. Complete task
+6. Open guest link

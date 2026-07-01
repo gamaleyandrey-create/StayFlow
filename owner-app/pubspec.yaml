@@ -1,0 +1,10 @@
+name: stayflow_owner_app
+description: StayFlow Owner App
+version: 1.1.0
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter

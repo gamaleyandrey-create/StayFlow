@@ -7,21 +7,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum UserRole {
-  OWNER
-  MANAGER
-  WORKER
-  GUEST
-  ADMIN
-}
-
 enum PropertyStatus {
   FREE
   OCCUPIED
   CLEANING_NEEDED
-  CLEANING_IN_PROGRESS
   READY
-  REPAIR
   PROBLEM
 }
 
@@ -31,36 +21,25 @@ enum TaskStatus {
   ACCEPTED
   IN_PROGRESS
   COMPLETED
-  CANCELLED
   PROBLEM
 }
 
-model User {
-  id           String   @id @default(uuid())
-  name         String
-  email        String   @unique
-  phone        String?
-  role         UserRole
-  passwordHash String
-  createdAt    DateTime @default(now())
-}
-
 model Property {
-  id            String         @id @default(uuid())
-  title         String
-  address       String
-  city          String?
-  bedrooms      Int?
-  bathrooms     Int?
-  maxGuests     Int?
-  wifiName      String?
-  wifiPassword  String?
-  doorCode      String?
-  instructions  String?
-  status        PropertyStatus @default(FREE)
-  bookings      Booking[]
-  tasks         Task[]
-  createdAt     DateTime @default(now())
+  id           String         @id @default(uuid())
+  title        String
+  address      String
+  city         String?
+  bedrooms     Int?
+  bathrooms    Int?
+  maxGuests    Int?
+  wifiName     String?
+  wifiPassword String?
+  doorCode     String?
+  instructions String?
+  status       PropertyStatus @default(FREE)
+  bookings     Booking[]
+  tasks        Task[]
+  createdAt    DateTime       @default(now())
 }
 
 model Booking {
@@ -72,10 +51,9 @@ model Booking {
   guestPhone   String?
   checkInDate  DateTime
   checkOutDate DateTime
-  guestsCount  Int?
   amount       Float?
   source       String?
-  guestLink    String?
+  guestLink    String   @unique
   tasks        Task[]
   createdAt    DateTime @default(now())
 }
@@ -92,7 +70,6 @@ model Task {
   description      String?
   status           TaskStatus @default(NEW)
   date             DateTime?
-  price            Float?
-  priority         String?
-  createdAt        DateTime @default(now())
+  photos           String[]
+  createdAt        DateTime   @default(now())
 }
