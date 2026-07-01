@@ -1,21 +1,19 @@
 # StayFlow
 
-## Property Operations Platform
+**Property Operations Platform for Owners, Workers and Guests**
 
-StayFlow — это платформа для управления туристической недвижимостью.
+StayFlow — экосистема для управления туристической недвижимостью: владельцы и управляющие компании контролируют объекты, работники получают задачи, гости получают инструкции и сервис.
 
-### Приложения
+## Apps
 
-- 🏠 Owner App
-- 👷 Worker App
-- 🧳 Guest App
-- 🖥️ Admin Panel
+- 🏠 Owner App — управление объектами, бронированиями, задачами, финансами.
+- 👷 Worker App — задачи, маршруты, фотоотчеты, доход.
+- 🧳 Guest App — заселение, инструкции, чат, услуги.
+- 🖥️ Admin Panel — управление платформой.
 
----
+## Project Structure
 
-## Структура проекта
-
-```
+```text
 docs/
 owner/
 worker/
@@ -26,18 +24,18 @@ database/
 design/
 scripts/
 releases/
+assets/
 ```
 
----
+## MVP Priority
 
-## Roadmap
-
-- MVP
-- AI Manager
-- Marketplace
-- Dynamic Pricing
-- Smart Automation
-
----
+1. Properties
+2. Bookings
+3. Automatic cleaning tasks
+4. Worker task flow
+5. Guest link
+6. Photo reports
+7. Chat
+8. Notifications
 
 © StayFlow 2026
